@@ -62,8 +62,6 @@ export const translations: TranslationDictionary = {
   contact_subtitle: { en: 'Ready to start your project? Message us on WhatsApp.', ar: 'هل أنت مستعد لبدء مشروعك؟ راسلنا عبر واتساب.', ku: 'ئامادەی بۆ دەستپێکردنی پڕۆژەکەت؟ لە واتسئەپ نامەمان بۆ بنێرە.' },
   form_send: { en: 'Send via WhatsApp', ar: 'إرسال عبر واتساب', ku: 'ناردن لەڕێگەی واتسئەپ' },
   
-  // AI
-  ai_assistant_placeholder: { en: 'Ask which print type is best for you...', ar: 'اسأل عن نوع الطباعة الأنسب لك...', ku: 'بپرسە کام جۆرە چاپ بۆ تۆ گونجاوە...' },
   portfolio_title: { en: 'Explore Our Portfolio', ar: 'استكشف معرض أعمالنا', ku: 'نموونەی کارەکانمان ببینە' },
 
   // Footer
