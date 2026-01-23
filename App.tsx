@@ -7,16 +7,16 @@ import {
   Printer, Settings, Trash2, Users, Lock, 
   LayoutGrid, List as ListIcon, Target, History, Edit3, Image as ImageIcon, ExternalLink,
   Facebook, Instagram, ShieldCheck, Zap, Package,
-  BarChart3, Send, LogOut, Plus, ArrowRight, Save, RefreshCcw, Activity, MousePointer2, Truck, ShoppingCart, ShieldAlert, FileText, Layout, Video, Share2
+  BarChart3, Send, LogOut, Plus, ArrowRight, Save, RefreshCcw, Activity, MousePointer2, Truck, ShoppingCart, ShieldAlert, FileText, Layout, Video, Share2, TrendingUp
 } from 'lucide-react';
 import { supabase } from './supabaseClient';
 import { translations } from './translations';
 import { Language, PortfolioItem, ServiceItem, AdminLog } from './types';
 
-// Simple TikTok Icon as it's not in standard Lucide version usually used
+// Simple TikTok Icon
 const TikTokIcon = ({ className }: { className?: string }) => (
   <svg viewBox="0 0 24 24" fill="currentColor" className={className}>
-    <path d="M12.525.02c1.31-.02 2.61-.01 3.91-.02.08 1.53.63 3.09 1.75 4.17 1.12 1.11 2.7 1.62 4.24 1.79v4.03c-1.44-.05-2.89-.35-4.2-.97-.57-.26-1.1-.59-1.62-.93-.01 2.92.01 5.84-.02 8.75-.08 1.4-.54 2.79-1.35 3.94-1.31 1.92-3.58 3.17-5.91 3.21-1.43.08-2.86-.31-4.08-1.03-2.02-1.19-3.44-3.37-3.65-5.71-.02-.5-.03-1-.01-1.49.18-1.9 1.12-3.72 2.58-4.96 1.66-1.44 3.98-2.13 6.15-1.72.02 1.48-.04 2.96-.04 4.44-.9-.32-1.98-.23-2.81.31-.75.42-1.24 1.17-1.35 1.99-.06.75.14 1.51.58 2.12.45.62 1.2 1.01 1.96 1.05h.33c.8-.02 1.61-.41 2.12-1.03.49-.6.76-1.37.78-2.14.04-3.34.01-6.68.03-10.02v-3.54z"/>
+    <path d="M12.525.02c1.31-.02 2.61-.01 3.91-.02.08 1.53.63 3.09 1.75 4.17 1.12 1.11 2.7 1.62 4.24 1.79v4.03c-1.44-.05-2.89-.35-4.2-.97-.57-.26-1.1-.59-1.62-.93-.01 2.92.01 5.84-.02 8.75-.08 1.4-.54 2.79-1.35 3.94-1.31 1.92-3.58 3.17-5.91 3.21-1.43.08-2.86-.31-4.08-1.03-2.02-1.19-3.44-3.37-3.65-5.71-.02-.5-.03-1-.01-1.49.18-1.9 1.12-3.72 2.58-4.96 1.66-1.44 3.98-2.13 6.15-1.72.02 1.48-.04 2.96-.04 4.44-.9-.32-1.98-.23-2.81.31-.75.42-1.24 1.17-1.35 1.99-.06.75.14 1.51.58 2.12.45.62 1.2 1.01 1.96 1.05h.33c.8-.02 1.61-.41 2.12-10.02v-3.54z"/>
   </svg>
 );
 
@@ -144,7 +144,8 @@ export default function App() {
   const savePortfolioItem = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setIsLoading(true);
-    const formData = new FormData(e.currentTarget);
+    const form = e.currentTarget;
+    const formData = new FormData(form);
     const itemData = {
       category: { en: formData.get('cat_en'), ar: formData.get('cat_ar'), ku: formData.get('cat_ku') },
       images: (formData.get('imageUrls') as string).split(',').map(u => u.trim()),
@@ -152,8 +153,12 @@ export default function App() {
       description: { en: formData.get('desc_en'), ar: formData.get('desc_ar'), ku: formData.get('desc_ku') }
     };
     if (editingItem?.id) await supabase.from('portfolio').update(itemData).eq('id', editingItem.id);
-    else await supabase.from('portfolio').insert([itemData]);
+    else {
+      await supabase.from('portfolio').insert([itemData]);
+      await createLog('asset_deployed', `New asset: ${itemData.title.en}`);
+    }
     setEditingItem(null);
+    form.reset();
     fetchInitialData();
     setIsLoading(false);
   };
@@ -161,15 +166,20 @@ export default function App() {
   const saveServiceItem = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setIsLoading(true);
-    const formData = new FormData(e.currentTarget);
+    const form = e.currentTarget;
+    const formData = new FormData(form);
     const serviceData = {
       image: formData.get('image') as string,
       title: { en: formData.get('title_en'), ar: formData.get('title_ar'), ku: formData.get('title_ku') },
       description: { en: formData.get('desc_en'), ar: formData.get('desc_ar'), ku: formData.get('desc_ku') }
     };
     if (editingService?.id) await supabase.from('services').update(serviceData).eq('id', editingService.id);
-    else await supabase.from('services').insert([serviceData]);
+    else {
+      await supabase.from('services').insert([serviceData]);
+      await createLog('service_created', `New service: ${serviceData.title.en}`);
+    }
     setEditingService(null);
+    form.reset();
     fetchInitialData();
     setIsLoading(false);
   };
@@ -177,7 +187,8 @@ export default function App() {
   const saveSocialLink = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setIsLoading(true);
-    const formData = new FormData(e.currentTarget);
+    const form = e.currentTarget;
+    const formData = new FormData(form);
     const socialData = {
       platform: formData.get('platform') as string,
       url: formData.get('url') as string
@@ -185,6 +196,7 @@ export default function App() {
     if (editingSocial?.id) await supabase.from('social_links').update(socialData).eq('id', editingSocial.id);
     else await supabase.from('social_links').insert([socialData]);
     setEditingSocial(null);
+    form.reset();
     fetchInitialData();
     setIsLoading(false);
   };
@@ -220,6 +232,7 @@ export default function App() {
   const toggleMaintenance = async () => {
     const newVal = !maintenance;
     await supabase.from('settings').update({ value: newVal }).eq('key', 'maintenance_mode');
+    await createLog('maintenance_toggle', `State: ${newVal ? 'ON' : 'OFF'}`);
     setMaintenance(newVal);
   };
 
@@ -321,7 +334,7 @@ export default function App() {
                   <div className="hidden lg:block relative">
                     <div className="absolute -inset-4 bg-gradient-to-tr from-[#6C63FF]/30 to-[#FF6B6B]/30 blur-3xl rounded-full"></div>
                     <div className="relative aspect-square rounded-[3rem] overflow-hidden border border-white/10 shadow-2xl rotate-3">
-                      <img className="w-full h-full object-cover" alt="Printing Showcase" src="https://images.unsplash.com/photo-1563223552-30400d41fca5?auto=format&fit=crop&q=80&w=1200" />
+                      <img className="w-full h-full object-cover" alt="Printing Showcase" src="https://i0.wp.com/dtfprinting.com/wp-content/uploads/dtf-superstore.jpg?resize=768%2C576&ssl=1" />
                       <div className="absolute inset-0 bg-gradient-to-t from-slate-950/60 to-transparent"></div>
                       <div className="absolute bottom-8 left-8 right-8 bg-white/10 backdrop-blur-md p-6 rounded-2xl border border-white/10">
                         <p className="text-white font-bold text-lg mb-1">UV Precision Printing</p>
@@ -384,7 +397,7 @@ export default function App() {
           <Route path="/services" element={
             <div className="py-20 max-w-5xl mx-auto px-6 space-y-24">
                <div className="text-center space-y-6">
-                 <h2 className="text-3xl sm:text-5xl md:text-7xl font-black text-white uppercase tracking-tighter leading-none">{t('services_title')}</h2>
+                 <h2 className="text-3xl sm:text-4xl md:text-6xl font-black text-white uppercase tracking-tighter leading-none">{t('services_title')}</h2>
                  <div className="w-24 h-2 bg-[#6366f1] mx-auto rounded-full" />
                  <p className="text-lg sm:text-xl text-slate-400 max-w-2xl mx-auto font-medium">{t('services_desc')}</p>
                </div>
@@ -393,7 +406,7 @@ export default function App() {
                    <div key={s.id} className="glass-card p-6 md:p-12 rounded-[2.5rem] md:rounded-[4rem] flex flex-col md:flex-row gap-8 md:gap-16 items-center hover:border-[#6366f1]/20 transition-all duration-700 group">
                      <img src={s.image} className="w-full md:w-80 h-64 md:h-72 object-cover rounded-[2rem] md:rounded-[3rem] border border-white/10 group-hover:scale-105 transition-transform" alt="" />
                      <div className="space-y-6 md:space-y-8 flex-1 text-center md:text-left rtl:md:text-right">
-                        <h3 className="text-3xl md:text-5xl font-black text-white uppercase tracking-tighter leading-none">{s.title[lang] || s.title.en}</h3>
+                        <h3 className="text-2xl sm:text-3xl md:text-5xl font-black text-white uppercase tracking-tighter leading-none">{s.title[lang] || s.title.en}</h3>
                         <p className="text-slate-400 text-lg md:text-xl font-medium leading-relaxed">{s.description[lang] || s.description.en}</p>
                         <Link to="/contact" className="inline-flex items-center gap-4 text-[#6366f1] font-black text-xs uppercase tracking-[0.4em] hover:gap-8 transition-all">
                           {t('hero_cta_primary')} <ArrowRight className={`w-5 h-5 ${isRtl ? 'rotate-180' : ''}`} />
@@ -409,7 +422,7 @@ export default function App() {
             <div className="py-20 max-w-7xl mx-auto px-6 space-y-20">
               <div className="flex flex-col md:flex-row justify-between items-end gap-12">
                 <div className="space-y-4">
-                  <h2 className="text-5xl md:text-7xl font-black text-white uppercase tracking-tighter leading-none">{t('nav_portfolio')}</h2>
+                  <h2 className="text-4xl sm:text-5xl md:text-6xl font-black text-white uppercase tracking-tighter leading-none">{t('nav_portfolio')}</h2>
                   <div className="w-24 h-1.5 bg-[#6C63FF] rounded-full"></div>
                 </div>
                 <div className="flex flex-wrap items-center gap-6">
@@ -460,13 +473,13 @@ export default function App() {
             <div className="max-w-7xl mx-auto px-6 py-20 space-y-32">
               <div className="grid grid-cols-1 lg:grid-cols-2 gap-20 items-center">
                 <div className="space-y-8">
-                  <h1 className="text-6xl font-black text-white leading-tight uppercase tracking-tighter">{t('about_title')}</h1>
+                  <h1 className="text-3xl sm:text-4xl md:text-6xl font-black text-white leading-tight uppercase tracking-tighter">{t('about_title')}</h1>
                   <div className="w-20 h-2 bg-[#6C63FF] rounded-full"></div>
                   <p className="text-xl text-slate-400 leading-relaxed italic border-l-4 border-slate-800 pl-6">"{t('about_p1')}"</p>
                 </div>
                 <div className="relative">
                   <div className="absolute -inset-10 bg-gradient-to-br from-[#6C63FF]/20 to-[#FF6B6B]/20 blur-3xl"></div>
-                  <img className="relative rounded-[3rem] border border-white/10 shadow-2xl grayscale hover:grayscale-0 transition-all duration-1000 w-full object-cover h-[500px]" alt="About Us" src="https://images.unsplash.com/photo-1513346030226-ee39978b4e42?auto=format&fit=crop&q=80&w=1200" />
+                  <img className="relative rounded-[3rem] border border-white/10 shadow-2xl grayscale hover:grayscale-0 transition-all duration-1000 w-full object-cover h-[500px]" alt="About Us" src="https://i0.wp.com/dtfprinting.com/wp-content/uploads/dtf-superstore.jpg?resize=768%2C576&ssl=1" />
                 </div>
               </div>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-12">
@@ -488,7 +501,7 @@ export default function App() {
             <div className="py-20 px-6 max-w-7xl mx-auto flex flex-col items-center">
                <div className="space-y-16 w-full max-w-3xl">
                   <div className="space-y-6 text-center">
-                    <h2 className="text-6xl md:text-8xl font-black text-white uppercase tracking-tighter leading-none">{t('contact_title')}</h2>
+                    <h2 className="text-3xl sm:text-5xl md:text-7xl font-black text-white uppercase tracking-tighter leading-none">{t('contact_title')}</h2>
                     <p className="text-slate-500 uppercase font-black text-[11px] tracking-[0.5em]">{t('contact_subtitle')}</p>
                     <div className="w-24 h-2 bg-[#6366f1] mx-auto rounded-full mt-8"></div>
                   </div>
@@ -528,7 +541,12 @@ export default function App() {
                        <p className="text-[10px] font-black text-slate-500 uppercase tracking-widest">Grid Status: {maintenance ? 'Locked' : 'Production'}</p>
                     </div>
                   </div>
-                  <button onClick={() => supabase.auth.signOut()} className="px-8 py-4 bg-red-500/10 text-red-500 border border-red-500/20 rounded-2xl font-black uppercase text-[10px] tracking-widest flex items-center gap-3"><LogOut className="w-4 h-4" /> Terminate</button>
+                  <div className="flex gap-4">
+                    <button onClick={toggleMaintenance} className={`px-8 py-4 rounded-2xl font-black uppercase text-[10px] tracking-widest transition-all ${maintenance ? 'bg-amber-500 text-black' : 'bg-white/5 text-white border border-white/10'}`}>
+                      {maintenance ? 'Exit Maintenance' : 'Engage Sync Lock'}
+                    </button>
+                    <button onClick={() => supabase.auth.signOut()} className="px-8 py-4 bg-red-500/10 text-red-500 border border-red-500/20 rounded-2xl font-black uppercase text-[10px] tracking-widest flex items-center gap-3"><LogOut className="w-4 h-4" /> Terminate</button>
+                  </div>
                </header>
 
                <nav className="flex gap-4 bg-white/5 p-2 rounded-[2rem] border border-white/10 w-fit overflow-x-auto no-scrollbar">
@@ -546,6 +564,72 @@ export default function App() {
                </nav>
 
                <div className="grid grid-cols-1 gap-12">
+                 {activeTab === 'overview' && (
+                    <div className="space-y-12">
+                      <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+                        <div className="glass-card p-12 rounded-[3rem] border-l-4 border-[#6C63FF] group hover:scale-[1.02] transition-all">
+                          <h4 className="text-slate-500 font-bold uppercase text-[10px] mb-2">Portfolio Assets</h4>
+                          <p className="text-6xl font-black text-white">{portfolio.length}</p>
+                          <div className="flex items-center gap-2 mt-4 text-[#6C63FF]">
+                             <TrendingUp className="w-4 h-4" /> <span className="text-[9px] font-black uppercase">Asset Coverage: 100%</span>
+                          </div>
+                        </div>
+                        <div className="glass-card p-12 rounded-[3rem] border-l-4 border-[#4ECDC4] group hover:scale-[1.02] transition-all">
+                          <h4 className="text-slate-500 font-bold uppercase text-[10px] mb-2">Service Protocols</h4>
+                          <p className="text-6xl font-black text-white">{services.length}</p>
+                          <div className="flex items-center gap-2 mt-4 text-[#4ECDC4]">
+                             <Activity className="w-4 h-4" /> <span className="text-[9px] font-black uppercase">Node Sync: Online</span>
+                          </div>
+                        </div>
+                        <div className="glass-card p-12 rounded-[3rem] border-l-4 border-pink-500 group hover:scale-[1.02] transition-all">
+                          <h4 className="text-slate-500 font-bold uppercase text-[10px] mb-2">Signal Streams</h4>
+                          <p className="text-6xl font-black text-white">{socials.length}</p>
+                          <div className="flex items-center gap-2 mt-4 text-pink-500">
+                             <Share2 className="w-4 h-4" /> <span className="text-[9px] font-black uppercase">Broadcast: Active</span>
+                          </div>
+                        </div>
+                      </div>
+
+                      <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                         <div className="glass-card p-12 rounded-[3rem] border-white/5 space-y-8">
+                           <h3 className="text-xl font-black text-white uppercase tracking-widest flex items-center gap-3"><BarChart3 className="text-[#6366f1]" /> Site Health Metrics</h3>
+                           <div className="space-y-6">
+                              {[
+                                { label: 'TRAFFIC GROWTH', val: 78, color: 'bg-[#6366f1]' },
+                                { label: 'RESOURCE LOAD', val: 32, color: 'bg-[#4ECDC4]' },
+                                { label: 'SIGNAL UPTIME', val: 99, color: 'bg-emerald-500' }
+                              ].map(m => (
+                                <div key={m.label} className="space-y-2">
+                                   <div className="flex justify-between text-[9px] font-black text-slate-500">
+                                      <span>{m.label}</span>
+                                      <span>{m.val}%</span>
+                                   </div>
+                                   <div className="h-1.5 bg-white/5 rounded-full overflow-hidden">
+                                      <div className={`h-full ${m.color} transition-all duration-1000`} style={{ width: `${m.val}%` }}></div>
+                                   </div>
+                                </div>
+                              ))}
+                           </div>
+                         </div>
+                         <div className="glass-card p-12 rounded-[3rem] border-white/5 space-y-8">
+                           <h3 className="text-xl font-black text-white uppercase tracking-widest flex items-center gap-3"><Activity className="text-pink-500" /> Live Activity Feed</h3>
+                           <div className="space-y-4 max-h-[300px] overflow-y-auto no-scrollbar">
+                              {logs.slice(0, 8).map(log => (
+                                <div key={log.id} className="flex gap-4 items-start p-4 bg-white/5 rounded-2xl border border-white/5 group hover:border-white/10 transition-all">
+                                   <div className={`mt-1 w-2 h-2 rounded-full shrink-0 ${log.status === 'success' ? 'bg-emerald-500' : 'bg-red-500'}`}></div>
+                                   <div>
+                                      <p className="text-[10px] font-black text-white uppercase">{log.action.replace(/_/g, ' ')}</p>
+                                      <p className="text-[10px] text-slate-500 mt-1">{log.details}</p>
+                                      <p className="text-[8px] text-slate-700 font-bold mt-2">{new Date(log.timestamp).toLocaleTimeString()}</p>
+                                   </div>
+                                </div>
+                              ))}
+                           </div>
+                         </div>
+                      </div>
+                    </div>
+                 )}
+
                  {activeTab === 'social' && (
                    <div className="grid grid-cols-1 lg:grid-cols-3 gap-12">
                      <div className="glass-card p-12 rounded-[4rem] h-fit sticky top-12 border-t-8 border-pink-500 space-y-8">
@@ -580,6 +664,7 @@ export default function App() {
                      </div>
                    </div>
                  )}
+
                  {activeTab === 'portfolio' && (
                     <div className="grid grid-cols-1 lg:grid-cols-3 gap-12">
                       <div className="glass-card p-12 rounded-[4rem] h-fit sticky top-12 border-t-8 border-[#6366f1] space-y-8">
@@ -598,10 +683,16 @@ export default function App() {
                             <input defaultValue={editingItem?.title?.ar} name="title_ar" dir="rtl" placeholder="العنوان (AR)" className="w-full bg-slate-900 p-4 rounded-xl border border-white/5 text-xs font-bold text-white" />
                             <input defaultValue={editingItem?.title?.ku} name="title_ku" dir="rtl" placeholder="ناونیشان (KU)" className="w-full bg-slate-900 p-4 rounded-xl border border-white/5 text-xs font-bold text-white" />
                           </div>
+                          <div className="space-y-4">
+                            <label className="text-[10px] font-bold text-slate-500 uppercase tracking-[0.2em]">Description Assets</label>
+                            <textarea defaultValue={editingItem?.description?.en} name="desc_en" placeholder="Desc (EN)" className="w-full bg-slate-900 p-4 rounded-xl border border-white/5 text-xs font-bold text-white" />
+                            <textarea defaultValue={editingItem?.description?.ar} name="desc_ar" dir="rtl" placeholder="الوصف (AR)" className="w-full bg-slate-900 p-4 rounded-xl border border-white/5 text-xs font-bold text-white" />
+                            <textarea defaultValue={editingItem?.description?.ku} name="desc_ku" dir="rtl" placeholder="وەسف (KU)" className="w-full bg-slate-900 p-4 rounded-xl border border-white/5 text-xs font-bold text-white" />
+                          </div>
                           <button type="submit" className="w-full bg-[#6366f1] py-6 rounded-[2rem] font-black uppercase text-[11px] tracking-widest text-white shadow-xl hover:scale-105 transition-all">Engage Production</button>
                         </form>
                       </div>
-                      <div className="lg:col-span-2 space-y-4">
+                      <div className="lg:col-span-2 space-y-4 overflow-y-auto max-h-[800px] no-scrollbar">
                         {portfolio.map(p => (
                           <div key={p.id} className="glass-card p-6 rounded-[2rem] flex items-center justify-between border-white/5">
                             <div className="flex items-center gap-6">
@@ -617,10 +708,11 @@ export default function App() {
                       </div>
                     </div>
                  )}
+
                  {activeTab === 'services' && (
                     <div className="grid grid-cols-1 lg:grid-cols-3 gap-12">
                       <div className="glass-card p-12 rounded-[4rem] h-fit sticky top-12 border-t-8 border-emerald-500 space-y-8">
-                        <h3 className="text-2xl font-black text-white uppercase tracking-tighter">Define Service</h3>
+                        <h3 className="text-2xl font-black text-white uppercase tracking-tighter">{editingService ? 'Edit Protocol' : 'Define Service'}</h3>
                         <form onSubmit={saveServiceItem} className="space-y-6">
                           <input defaultValue={editingService?.image} name="image" placeholder="IMAGE LINK (HTTPS)" className="w-full bg-slate-900 border border-white/5 p-4 rounded-xl text-xs font-bold text-white" required />
                           <div className="space-y-4">
@@ -629,10 +721,16 @@ export default function App() {
                             <input defaultValue={editingService?.title?.ar} name="title_ar" dir="rtl" placeholder="العنوان (AR)" className="w-full bg-slate-900 p-4 rounded-xl border border-white/5 text-xs font-bold text-white" />
                             <input defaultValue={editingService?.title?.ku} name="title_ku" dir="rtl" placeholder="ناونیشان (KU)" className="w-full bg-slate-900 p-4 rounded-xl border border-white/5 text-xs font-bold text-white" />
                           </div>
+                          <div className="space-y-4">
+                            <label className="text-[10px] font-bold text-slate-500 uppercase tracking-[0.2em]">Description Protocol</label>
+                            <textarea defaultValue={editingService?.description?.en} name="desc_en" placeholder="Description (EN)" className="w-full bg-slate-900 p-4 rounded-xl border border-white/5 text-xs font-bold text-white h-24" />
+                            <textarea defaultValue={editingService?.description?.ar} name="desc_ar" dir="rtl" placeholder="الوصف (AR)" className="w-full bg-slate-900 p-4 rounded-xl border border-white/5 text-xs font-bold text-white h-24" />
+                            <textarea defaultValue={editingService?.description?.ku} name="desc_ku" dir="rtl" placeholder="وەسف (KU)" className="w-full bg-slate-900 p-4 rounded-xl border border-white/5 text-xs font-bold text-white h-24" />
+                          </div>
                           <button type="submit" className="w-full bg-emerald-500 py-6 rounded-[2rem] font-black uppercase text-[11px] tracking-widest text-white shadow-xl hover:scale-105 transition-all">Engage Service</button>
                         </form>
                       </div>
-                      <div className="lg:col-span-2 space-y-4">
+                      <div className="lg:col-span-2 space-y-4 overflow-y-auto max-h-[800px] no-scrollbar">
                         {services.map(s => (
                           <div key={s.id} className="glass-card p-6 rounded-[2rem] flex items-center justify-between border-white/5">
                             <div className="flex items-center gap-6">
@@ -648,12 +746,36 @@ export default function App() {
                       </div>
                     </div>
                  )}
-                 {activeTab === 'overview' && (
-                    <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-                      <div className="glass-card p-12 rounded-[3rem] border-l-4 border-blue-500"><h4 className="text-slate-500 font-bold uppercase text-[10px] mb-2">Portfolio</h4><p className="text-5xl font-black text-white">{portfolio.length}</p></div>
-                      <div className="glass-card p-12 rounded-[3rem] border-l-4 border-green-500"><h4 className="text-slate-500 font-bold uppercase text-[10px] mb-2">Services</h4><p className="text-5xl font-black text-white">{services.length}</p></div>
-                      <div className="glass-card p-12 rounded-[3rem] border-l-4 border-pink-500"><h4 className="text-slate-500 font-bold uppercase text-[10px] mb-2">Socials</h4><p className="text-5xl font-black text-white">{socials.length}</p></div>
-                    </div>
+
+                 {activeTab === 'logs' && (
+                   <div className="glass-card rounded-[4rem] overflow-hidden border border-white/10">
+                      <div className="overflow-x-auto">
+                        <table className="w-full text-left">
+                          <thead className="bg-white/5">
+                            <tr>
+                              <th className="px-10 py-8 text-[10px] font-black text-slate-500 uppercase tracking-widest">Operation</th>
+                              <th className="px-10 py-8 text-[10px] font-black text-slate-500 uppercase tracking-widest">Payload Details</th>
+                              <th className="px-10 py-8 text-[10px] font-black text-slate-500 uppercase tracking-widest">Status</th>
+                              <th className="px-10 py-8 text-[10px] font-black text-slate-500 uppercase tracking-widest text-right">Timestamp</th>
+                            </tr>
+                          </thead>
+                          <tbody className="divide-y divide-white/5">
+                            {logs.map(log => (
+                              <tr key={log.id} className="hover:bg-white/[0.02] transition-colors">
+                                <td className="px-10 py-8 text-white font-black uppercase text-xs whitespace-nowrap">{log.action.replace(/_/g, ' ')}</td>
+                                <td className="px-10 py-8 text-slate-400 text-xs max-w-xl leading-relaxed">{log.details}</td>
+                                <td className="px-10 py-8">
+                                   <span className={`px-3 py-1 rounded-full text-[9px] font-black uppercase tracking-widest ${log.status === 'success' ? 'bg-emerald-500/10 text-emerald-500 border border-emerald-500/20' : 'bg-red-500/10 text-red-500 border border-red-500/20'}`}>
+                                      {log.status}
+                                   </span>
+                                </td>
+                                <td className="px-10 py-8 text-right text-[9px] font-black text-slate-600 uppercase whitespace-nowrap">{new Date(log.timestamp).toLocaleString()}</td>
+                              </tr>
+                            ))}
+                          </tbody>
+                        </table>
+                      </div>
+                   </div>
                  )}
                </div>
             </div>
