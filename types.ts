@@ -14,10 +14,11 @@ export interface NavItem {
 
 export interface PortfolioItem {
   id: string;
-  category: string; 
+  category: MultiLangText; 
   images: string[];
   title: MultiLangText;
   description: MultiLangText;
+  created_at?: string;
 }
 
 export interface ServiceItem {
@@ -25,6 +26,7 @@ export interface ServiceItem {
   image: string;
   title: MultiLangText;
   description: MultiLangText;
+  created_at?: string;
 }
 
 export interface BlogPost {
@@ -38,6 +40,7 @@ export interface BlogPost {
 export interface AdminLog {
   id: string;
   action: string;
+  details: string;
   timestamp: string;
   status: 'success' | 'failure';
 }

@@ -24,8 +24,12 @@
         -moz-osx-font-smoothing: grayscale;
       }
 
-      [dir="rtl"] body {
-        font-family: 'Noto Sans Arabic', sans-serif;
+      .font-noto-arabic {
+        font-family: 'Noto Sans Arabic', sans-serif !important;
+      }
+
+      [dir="rtl"], [dir="rtl"] * {
+        font-family: 'Noto Sans Arabic', sans-serif !important;
       }
 
       .text-gradient {
@@ -69,8 +73,7 @@
 
       /* Transitions */
       * {
-        transition: font-family 0.4s cubic-bezier(0.4, 0, 0.2, 1), 
-                    border-color 0.3s ease, 
+        transition: border-color 0.3s ease, 
                     background-color 0.3s ease;
       }
 
