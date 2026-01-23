@@ -1,23 +1,45 @@
 
 export type Language = 'en' | 'ar' | 'ku';
 
+export interface MultiLangText {
+  en: string;
+  ar: string;
+  ku: string;
+}
+
 export interface NavItem {
   key: string;
   path: string;
 }
 
-export interface Service {
+export interface PortfolioItem {
   id: string;
-  titleKey: string;
-  descKey: string;
-  icon: string;
+  category: string; 
+  images: string[];
+  title: MultiLangText;
+  description: MultiLangText;
 }
 
-export interface PortfolioItem {
-  id: string | number;
-  category: string;
+export interface ServiceItem {
+  id: string;
   image: string;
-  title: string;
+  title: MultiLangText;
+  description: MultiLangText;
+}
+
+export interface BlogPost {
+  id: string;
+  title: MultiLangText;
+  content: MultiLangText;
+  status: 'published' | 'draft';
+  date: string;
+}
+
+export interface AdminLog {
+  id: string;
+  action: string;
+  timestamp: string;
+  status: 'success' | 'failure';
 }
 
 export interface SocialLink {
@@ -30,6 +52,7 @@ export interface SocialLink {
 export interface SiteStats {
   visitors: number;
   orders: number;
+  lastLogin?: string;
 }
 
 export interface TranslationDictionary {

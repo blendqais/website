@@ -22,50 +22,54 @@ export const translations: TranslationDictionary = {
   },
   hero_cta_primary: { en: 'Get a Quote', ar: 'احصل على عرض سعر', ku: 'داوای نرخ بکە' },
   hero_cta_secondary: { en: 'View Work', ar: 'شاهد أعمالنا', ku: 'بینینی کارەکان' },
+  premium_studio_badge: { en: 'Premium Printing Studio', ar: 'ستوديو طباعة فاخر', ku: 'ستۆدیۆی چاپی نایاب' },
 
-  // Home - USP
+  // UI labels
+  admin_panel: { en: 'Admin Panel', ar: 'لوحة التحكم', ku: 'پانێڵی بەڕێوبەر' },
+  all: { en: 'All', ar: 'الكل', ku: 'هەموو' },
+  product_details: { en: 'Product Details', ar: 'تفاصيل المنتج', ku: 'زانیاریی کاڵا' },
+  request_this: { en: 'Order via WhatsApp', ar: 'اطلب عبر واتساب', ku: 'داواکردن لە ڕێگەی واتسئەپ' },
+  
+  // USP
   usp_no_min: { en: 'No Minimum Orders', ar: 'لا يوجد حد أدنى للطلب', ku: 'بەبێ مەرجی کەمترین بڕ' },
-  usp_quality: { en: 'Premium Quality', ar: 'جودة ممتازة', ku: 'کوالێتی نایاب' },
+  usp_quality: { en: 'Premium Quality', ar: 'جودة ممتازة', ku: 'کوالێتي نایاب' },
   usp_fast: { en: 'Nationwide Delivery', ar: 'توصيل لكافة المحافظات', ku: 'گەیاندن بۆ هەموو شوێنێک' },
 
-  // Services
-  services_title: { en: 'Our Expert Services', ar: 'خدماتنا المتخصصة', ku: 'خزمەتگوزارییەکانمان' },
-  services_desc: { en: 'Modern printing technologies for apparel and hard surfaces, delivered anywhere in Kurdistan & Iraq.', ar: 'تقنيات طباعة حديثة للملابس والأسطح الصلبة، تصلك أينما كنت في كوردستان والعراق.', ku: 'نوێترین تەکنەلۆژیای چاپ بۆ پۆشاک و کەلوپەلە ڕەقەکان، دەگاتە هەموو شوێنێکی کوردستان و عێراق.' },
-  
-  service_dtf_title: { en: 'DTF Transfers', ar: 'نقل DTF', ku: 'چاپی DTF' },
-  service_dtf_desc: { en: 'Direct-to-Film printing for vibrant, durable designs on any fabric.', ar: 'طباعة مباشرة على الفيلم لتصاميم حيوية ومتينة على أي قماش.', ku: 'چاپکردنی ڕاستەوخۆ لەسەر فیلم بۆ دیزاینی گەشاوە و بەهێز لەسەر هەر جۆرە قوماشێک.' },
-  
-  service_apparel_title: { en: 'Custom Apparel', ar: 'ملابس مخصصة', ku: 'پۆشاکی تایبەت' },
-  service_apparel_desc: { en: 'T-shirts, hoodies, and uniforms with professional-grade printing.', ar: 'تيشيرتات، هوديز، ويونيفورم مع طباعة عالية الجودة.', ku: 'تیشێرت، هودی، و یۆنیفۆرم بە چاپکردنی ئاستی پرۆفیشناڵ.' },
-  
-  service_uv_title: { en: 'UV Printing', ar: 'طباعة UV', ku: 'چاپی UV' },
-  service_uv_desc: { en: 'Permanent printing on phone cases, pens, acrylics, and more.', ar: 'طباعة دائمة على أغلفة الهواتف، الأقلام، الأكريليك، والمزيد.', ku: 'چاپکردنی هەمیشەیی لەسەر کەڤەری مۆبایل، قەڵەم، ئەکریلیک و زۆر شتی تر.' },
+  // Process
+  process_title: { en: 'How it Works', ar: 'كيف نعمل', ku: 'چۆن کار دەکەین' },
+  step1_title: { en: 'Upload Design', ar: 'ارفع تصميمك', ku: 'دیزاینەکەت بنێرە' },
+  step1_desc: { en: 'Send us your design via WhatsApp or Email.', ar: 'أرسل لنا تصميمك عبر واتساب أو البريد.', ku: 'دیزاینەکەت لەڕێگەی واتسئەپ یان ئیمەیڵ بنێرە.' },
+  step2_title: { en: 'We Print', ar: 'نحن نطبع', ku: 'ئێمە چاپ دەکەین' },
+  step2_desc: { en: 'High-precision UV or DTF printing.', ar: 'طباعة UV أو DTF عالية الدقة.', ku: 'چاپی UV یان DTF بە وردی زۆر بەرز.' },
+  step3_title: { en: 'Fast Delivery', ar: 'توصيل سريع', ku: 'گەیاندنی خێرا' },
+  step3_desc: { en: 'Delivered to your door anywhere in Iraq.', ar: 'توصيل لباب بيتك في أي مكان في العراق.', ku: 'گەیاندن بۆ بەردەم ماڵەکەت لە هەر شوێنێکی عێراق.' },
 
-  // Portfolio
-  portfolio_title: { en: 'Our Recent Work', ar: 'أعمالنا الأخيرة', ku: 'نوێترین کارەکانمان' },
-  all: { en: 'All', ar: 'الكل', ku: 'هەموو' },
-  filter_dtf: { en: 'DTF', ar: 'DTF', ku: 'DTF' },
-  filter_uv: { en: 'UV Print', ar: 'طباعة UV', ku: 'چاپی UV' },
-  filter_apparel: { en: 'Apparel', ar: 'ملابس', ku: 'پۆشاک' },
+  // Services Page
+  services_title: { en: 'Our Expert Services', ar: 'خدماتنا المتخصصة', ku: 'خزمەتگوزارییەکانمان' },
+  services_desc: { en: 'Modern printing technologies for apparel and hard surfaces.', ar: 'تقنيات طباعة حديثة للملابس والأسطح الصلبة.', ku: 'نوێترین تەکنەلۆژیای چاپ بۆ پۆشاک و کەلوپەلە ڕەقەکان.' },
 
   // About
   about_title: { en: 'Serving all of Kurdistan & Iraq', ar: 'نخدم جميع أنحاء كوردستان والعراق', ku: 'خزمەتگوزاری بۆ هەموو کوردستان و عێراق' },
-  about_p1: { en: 'PrintFusion Studio is a premier printing destination based in Koya, serving clients across the entire country. We combine cutting-edge technology with creative passion.', ar: 'برينت فيوجن ستوديو هي وجهة طباعة رائدة مقرها في كوي، تخدم العملاء في جميع أنحاء البلاد. نحن نجمع بين التكنولوجيا المتطورة والشغف الإبداعي.', ku: 'ستۆدیۆی پرێنت فیوژن بنکەکەی لە کۆیەیە و خزمەتگوزاری پێشکەش بە کڕیارانی تەواوی وڵات دەکات. ئێمە تەکنەلۆژیای سەردەم و خولیای داهێنەرانە کۆدەکەینەوە.' },
-  about_p2: { en: 'Whether you are in Erbil, Baghdad, Sulaymaniyah, or Basra, our nationwide delivery ensures your custom prints reach you fast and in perfect condition.', ar: 'سواء كنت في أربيل أو بغداد أو السليمانية أو البصرة، فإن توصيلنا لكافة المحافظات يضمن وصول مطبوعاتك المخصصة إليك بسرعة وبحالة ممتازة.', ku: 'ئەگەر لە هەولێر، بەغدا، سلێمانی، یان بەسرە بیت، گەیاندنی ئێمە بۆ هەموو شارەکان گرەنتی گەیشتنی چاپەکانت دەکات بە خێراترین کات و باشترین کوالێتی.' },
-  
-  // Contact
-  contact_title: { en: 'Get in Touch', ar: 'تواصل معنا', ku: 'پەیوەندیمان پێوە بکە' },
-  contact_subtitle: { en: 'Ready to start your project? We deliver to all of Kurdistan & Iraq. Message us on WhatsApp.', ar: 'هل أنت مستعد لبدء مشروعك؟ نقوم بالتوصيل لجميع أنحاء كوردستان والعراق. راسلنا عبر واتساب.', ku: 'ئامادەی بۆ دەستپێکردنی پڕۆژەکەت؟ گەیاندنمان هەیە بۆ هەموو کوردستان و عێراق. لە واتسئەپ نامەمان بۆ بنێرە.' },
-  form_name: { en: 'Name', ar: 'الاسم', ku: 'ناو' },
-  form_email: { en: 'Email', ar: 'البريد الإلكتروني', ku: 'ئیمەیڵ' },
-  form_message: { en: 'Message', ar: 'الرسالة', ku: 'نامە' },
-  form_send: { en: 'Send via WhatsApp', ar: 'إرسال عبر واتساب', ku: 'ناردن لەڕێگەی واتسئەپ' },
-  
-  // Footer
-  footer_rights: { en: 'All Rights Reserved.', ar: 'جميع الحقوق محفوظة.', ku: 'هەموو مافەکان پارێزراوە.' },
+  about_p1: { en: 'PrintFusion Studio is a premier printing destination based in Koya, serving clients across the entire country.', ar: 'برينت فيوجن ستوديو هي وجهة طباعة رائدة مقرها في كوي، تخدم العملاء في جميع أنحاء البلاد.', ku: 'ستۆدیۆی پرێنت فیوژن بنکەکەی لە کۆیەیە و خزمەتگوزاری پێشکەش بە کڕیارانی تەواوی وڵات دەکات.' },
+  about_mission_title: { en: 'Our Mission', ar: 'رسالتنا', ku: 'پەیاممان' },
+  about_mission_text: { en: 'To empower creativity through professional printing technology.', ar: 'تمكين الإبداع من خلال تكنولوجيا الطباعة الاحترافية.', ku: 'پەرەپێدانی داهێنان لەڕێگەی تەکنەلۆژیای چاپی پرۆفیشناڵ.' },
+  about_history_title: { en: 'Established Quality', ar: 'جودة مترسخة', ku: 'کوالێتی جێگیر' },
+  about_history_text: { en: 'Founded in Koya, we have expanded to serve every corner of the country.', ar: 'تأسست في كوي، وتوسعت لتخدم كل ركن من أركان البلاد.', ku: 'لە کۆیە دامەزراوین، و گەشەمان کردووە بۆ خزمەتکردنی هەموو گۆشەیەکی وڵات.' },
   location: { en: 'Kurdistan & Iraq | HQ: Koya', ar: 'كوردستان والعراق | المقر: كوي', ku: 'کوردستان و عێراق | ناوەند: کۆیە' },
 
-  // Gemini Tool
-  ai_assistant_title: { en: 'Print Consultant (AI)', ar: 'مستشار الطباعة (ذكاء اصطناعي)', ku: 'ڕاوێژکاری چاپ (AI)' },
+  // Contact
+  contact_title: { en: 'Get in Touch', ar: 'تواصل معنا', ku: 'اتصل بنا' },
+  contact_subtitle: { en: 'Ready to start your project? Message us on WhatsApp.', ar: 'هل أنت مستعد لبدء مشروعك؟ راسلنا عبر واتساب.', ku: 'ئامادەی بۆ دەستپێکردنی پڕۆژەکەت؟ لە واتسئەپ نامەمان بۆ بنێرە.' },
+  form_send: { en: 'Send via WhatsApp', ar: 'إرسال عبر واتساب', ku: 'ناردن لەڕێگەی واتسئەپ' },
+  
+  // AI
   ai_assistant_placeholder: { en: 'Ask which print type is best for you...', ar: 'اسأل عن نوع الطباعة الأنسب لك...', ku: 'بپرسە کام جۆرە چاپ بۆ تۆ گونجاوە...' },
+  portfolio_title: { en: 'Explore Our Portfolio', ar: 'استكشف معرض أعمالنا', ku: 'نموونەی کارەکانمان ببینە' },
+
+  // Footer
+  footer_description: {
+    en: 'Elevating digital concepts into high-precision physical reality. Leading the industry in DTF, UV, and Bespoke Apparel for the modern market in Iraq.',
+    ar: 'الارتقاء بالمفاهيم الرقمية إلى واقع مادي عالي الدقة. رواد الصناعة في DTF و UV والملابس المخصصة للسوق الحديث في العراق.',
+    ku: 'گۆڕینی بیرۆکە دیجیتاڵییەکان بۆ واقیعێکی فیزیکی بە وردی زۆر بەرز. پێشەنگی پیشەسازی لە DTF و UV و پۆشاکی تایبەت بۆ بازاڕی مۆدێرن لە عێراق.'
+  },
 };
