@@ -663,14 +663,27 @@ export default function App() {
           <Route path="/contact" element={
             <div className="py-16 md:py-24 px-6 text-center space-y-12 md:space-y-16 animate-in fade-in duration-700">
               <h2 className="text-4xl md:text-8xl font-black text-gradient uppercase tracking-tighter">{translations.contact_title[lang]}</h2>
-              <div className="flex flex-col gap-6 md:gap-8 max-w-md mx-auto">
-                <a 
-                  href={`https://wa.me/${PHONE_NUMBER.replace('+', '')}`} 
-                  target="_blank"
-                  className="bg-[#25D366] px-8 py-5 rounded-[1.5rem] md:rounded-[2rem] font-bold text-xl md:text-2xl flex items-center justify-center gap-5 shadow-2xl hover:-translate-y-2 transition-all active:scale-95 text-white"
+              <div className="flex flex-col gap-8 max-w-md mx-auto">
+                <button 
+                  onClick={() => window.open(`https://wa.me/${PHONE_NUMBER.replace('+', '')}`, '_blank')}
+                  className="bg-[#25D366] px-10 py-6 rounded-[2rem] font-bold text-2xl flex items-center justify-center gap-5 shadow-2xl shadow-[#25D366]/20 hover:-translate-y-2 transition-all active:scale-95 group text-white"
                 >
-                  <MessageCircle className="w-7 h-7" /> WhatsApp Direct
-                </a>
+                  <MessageCircle className="w-8 h-8 group-hover:rotate-6 transition-transform" /> WhatsApp Direct
+                </button>
+                <div className="grid grid-cols-2 gap-6">
+                  <a href={`tel:${PHONE_NUMBER}`} className="glass-card p-8 rounded-[2rem] flex flex-col items-center gap-4 hover:border-[#4ECDC4] transition-all group">
+                    <div className="w-14 h-14 bg-white/5 rounded-2xl flex items-center justify-center group-hover:bg-[#4ECDC4]/10 transition-colors">
+                      <Phone className="w-7 h-7 text-[#4ECDC4] group-hover:rotate-12 transition-transform" />
+                    </div>
+                    <span className="text-[10px] font-black uppercase tracking-[0.3em] text-slate-500">Quick Call</span>
+                  </a>
+                  <a href={MAP_LINK} target="_blank" rel="noopener noreferrer" className="glass-card p-8 rounded-[2rem] flex flex-col items-center gap-4 hover:border-[#6C63FF] transition-all group">
+                    <div className="w-14 h-14 bg-white/5 rounded-2xl flex items-center justify-center group-hover:bg-[#6C63FF]/10 transition-colors">
+                      <MapPin className="w-7 h-7 text-[#6C63FF] group-hover:-translate-y-1 transition-transform" />
+                    </div>
+                    <span className="text-[10px] font-black uppercase tracking-[0.3em] text-slate-500">Directions</span>
+                  </a>
+                </div>
               </div>
             </div>
           } />
@@ -729,7 +742,7 @@ const Navbar = ({ lang, setLang, isAdmin }: { lang: Language, setLang: (l: Langu
   const items: NavItem[] = [{ key: 'nav_home', path: '/' }, { key: 'nav_services', path: '/services' }, { key: 'nav_portfolio', path: '/portfolio' }, { key: 'nav_about', path: '/about' }, { key: 'nav_contact', path: '/contact' }];
 
   return (
-    <nav className="sticky top-0 z-[90] bg-[#030712]/80 backdrop-blur-3xl border-b border-white/5 px-6 h-20 md:h-24 flex items-center">
+    <nav className="sticky top-0 z-[90] bg-[#030712]/95 backdrop-blur-3xl border-b border-white/5 px-6 h-20 md:h-24 flex items-center">
       <div className="max-w-7xl mx-auto w-full flex items-center justify-between">
         {/* Logo Section */}
         <Link to="/" className="flex items-center gap-3 md:gap-4 group shrink-0">
@@ -775,31 +788,31 @@ const Navbar = ({ lang, setLang, isAdmin }: { lang: Language, setLang: (l: Langu
         </div>
 
         {/* Mobile Menu Toggle */}
-        <button onClick={() => setIsOpen(!isOpen)} className="md:hidden text-slate-300 p-2 bg-white/5 rounded-xl border border-white/10 z-[110]">
+        <button onClick={() => setIsOpen(!isOpen)} className="md:hidden text-slate-300 p-2 bg-white/5 rounded-xl border border-white/10 z-[120] relative">
           {isOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
         </button>
       </div>
 
       {/* Mobile Menu Drawer - Fixed Overlay for better visibility */}
       {isOpen && (
-        <div className="fixed inset-0 top-20 left-0 w-full h-[calc(100vh-80px)] bg-[#030712] z-[100] md:hidden p-8 animate-in slide-in-from-top duration-500 border-t border-white/5 overflow-y-auto no-scrollbar">
-          <div className="flex flex-col space-y-6">
+        <div className="fixed inset-0 top-0 left-0 w-full h-screen bg-[#030712] z-[110] md:hidden p-8 flex flex-col justify-center animate-in slide-in-from-top duration-500 overflow-y-auto no-scrollbar">
+          <div className="flex flex-col space-y-4">
             {items.map(item => (
               <Link 
                 key={item.key} 
                 to={item.path} 
                 onClick={() => setIsOpen(false)} 
-                className={`block text-xl font-black uppercase tracking-tighter ${pathname === item.path ? 'text-[#6C63FF]' : 'text-white'}`}
+                className={`block text-lg font-black uppercase tracking-tighter ${pathname === item.path ? 'text-[#6C63FF]' : 'text-white'}`}
               >
                 {t(item.key)}
               </Link>
             ))}
-            <div className="grid grid-cols-3 gap-3 pt-8 border-t border-white/10">
+            <div className="grid grid-cols-3 gap-3 pt-6 border-t border-white/10">
               {['en', 'ar', 'ku'].map(l => (
                 <button 
                   key={l} 
                   onClick={() => { setLang(l as Language); setIsOpen(false); }} 
-                  className={`py-3 rounded-xl font-black uppercase tracking-widest text-[10px] transition-all ${lang === l ? 'bg-[#6C63FF] text-white shadow-2xl shadow-[#6C63FF]/30' : 'bg-slate-900/50 text-slate-500'}`}
+                  className={`py-2 rounded-xl font-black uppercase tracking-widest text-[9px] transition-all ${lang === l ? 'bg-[#6C63FF] text-white shadow-2xl shadow-[#6C63FF]/30' : 'bg-slate-900/50 text-slate-500'}`}
                 >
                   {l}
                 </button>

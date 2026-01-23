@@ -58,7 +58,7 @@ export const translations: TranslationDictionary = {
   location: { en: 'Kurdistan & Iraq | HQ: Koya', ar: 'كوردستان والعراق | المقر: كوي', ku: 'کوردستان و عێراق | ناوەند: کۆیە' },
 
   // Contact
-  contact_title: { en: 'Get in Touch', ar: 'تواصل معنا', ku: 'اتصل بنا' },
+  contact_title: { en: 'Get in Touch', ar: 'تواصل معنا', ku: 'بۆ پەیوەندی كردن' },
   contact_subtitle: { en: 'Ready to start your project? Message us on WhatsApp.', ar: 'هل أنت مستعد لبدء مشروعك؟ راسلنا عبر واتساب.', ku: 'ئامادەی بۆ دەستپێکردنی پڕۆژەکەت؟ لە واتسئەپ نامەمان بۆ بنێرە.' },
   form_send: { en: 'Send via WhatsApp', ar: 'إرسال عبر واتساب', ku: 'ناردن لەڕێگەی واتسئەپ' },
   
